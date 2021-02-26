@@ -3,9 +3,28 @@ function _load() {
 
   const form = document.getElementById("uploadForm");
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    console.log("the file upload process is blocked");
+
+    const formData = new FormData(event.target);
+    //formData.append("asd", "lol");
+
+    console.log("formData:", Object.fromEntries(formData));
+
+    let text;
+
+    try {
+      const res = await fetch("http://localhost:8000/upload/", {
+        method: "POST",
+        body: formData,
+      });
+
+      text = await res.text();
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      console.log("Response:", text);
+    }
   });
 }
 

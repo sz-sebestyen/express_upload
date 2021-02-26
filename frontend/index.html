@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./script.js"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <title>Express upload</title>
   </head>
   <body>
     <form
@@ -15,8 +16,10 @@
       method="post"
       enctype="multipart/form-data"
     >
+      <label for="userName">Username</label>
+      <input type="text" name="userName" placeholder="username" id="userName" />
       <input type="file" name="sampleFile" />
-      <input type="submit" value="Upload!" />
+      <input type="submit" value="Upload!" id="submit" />
     </form>
   </body>
 </html>
