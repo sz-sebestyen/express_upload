@@ -9,13 +9,18 @@ const PORT = 8000;
 app.use("/form", express.static(path.join(__dirname, "../frontend")));
 
 // default options
-app.use(fileUpload());
+// app.use(fileUpload());
 
 app.get("/ping", function (req, res) {
   res.send("pong");
 });
 
-app.post("/upload", function (req, res) {
+const asd = (req, res, next) => {
+  console.log("asd called");
+  next();
+};
+
+app.post("/upload", fileUpload(), asd, function (req, res) {
   console.log("userName:", req.body.userName);
 
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -46,7 +51,9 @@ app.post("/upload", function (req, res) {
           });
         })
     )
-  ).then(() => res.end());
+  ).then(() => {
+    res.end();
+  });
 });
 
 app.listen(PORT, function () {
