@@ -11,8 +11,14 @@
   <body>
     <form id="uploadForm">
       <label for="userName">Username</label>
-      <input type="text" name="userName" placeholder="username" id="userName" />
-      <input type="file" name="sampleFile" multiple />
+      <input
+        type="text"
+        name="userName"
+        placeholder="username"
+        id="userName"
+        required
+      />
+      <input type="file" name="uploadFiles" multiple required />
       <input type="submit" value="Upload!" id="submit" />
     </form>
   </body>

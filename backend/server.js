@@ -1,6 +1,5 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const { resolve } = require("path");
 const path = require("path");
 const app = express();
 
@@ -24,35 +23,24 @@ app.post("/upload", function (req, res) {
 
   console.log("req.files >>>", req.files); // eslint-disable-line
 
-  const allFiles = req.files.sampleFile.length
-    ? req.files.sampleFile
-    : [req.files.sampleFile];
+  const allFiles = req.files.uploadFiles.length
+    ? req.files.uploadFiles
+    : [req.files.uploadFiles];
 
-  /*   allFiles.forEach((file) => {
-    const uploadPath = __dirname + "/uploads/" + file.name;
-
-    file.mv(uploadPath, function (err) {
-      if (err) {
-        return res.status(500).send(err);
-      }
-
-      res.write("File uploaded to " + uploadPath);
-    });
-  }); */
-
-  Promise.allSettled(
+  Promise.all(
     allFiles.map(
       (file) =>
         new Promise((resolve, reject) => {
-          const uploadPath = __dirname + "/uploads/" + file.name;
+          const uploadPath = path.resolve(__dirname, "uploads", file.name);
 
           file.mv(uploadPath, function (err) {
             if (err) {
+              reject(err);
               return res.status(500).write(err);
             }
 
-            res.write("File uploaded to " + uploadPath + "\n");
-            resolve();
+            res.write(`File uploaded to ${uploadPath}\n`);
+            resolve(uploadPath);
           });
         })
     )
