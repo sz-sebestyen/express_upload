@@ -9,17 +9,15 @@
     <title>Express upload</title>
   </head>
   <body>
-    <form
-      ref="uploadForm"
-      id="uploadForm"
-      action="/upload"
-      method="post"
-      enctype="multipart/form-data"
-    >
+    <form id="uploadForm">
       <label for="userName">Username</label>
       <input type="text" name="userName" placeholder="username" id="userName" />
-      <input type="file" name="sampleFile" />
+      <input type="file" name="sampleFile" multiple />
       <input type="submit" value="Upload!" id="submit" />
     </form>
   </body>
 </html>
+<!-- ref="uploadForm"
+action="/upload"
+method="post"
+enctype="multipart/form-data" -->

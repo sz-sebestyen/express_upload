@@ -1,5 +1,6 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
+const { resolve } = require("path");
 const path = require("path");
 const app = express();
 
@@ -14,9 +15,6 @@ app.get("/ping", function (req, res) {
 });
 
 app.post("/upload", function (req, res) {
-  let sampleFile;
-  let uploadPath;
-
   console.log("userName:", req.body.userName);
 
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -26,17 +24,39 @@ app.post("/upload", function (req, res) {
 
   console.log("req.files >>>", req.files); // eslint-disable-line
 
-  sampleFile = req.files.sampleFile;
+  const allFiles = req.files.sampleFile.length
+    ? req.files.sampleFile
+    : [req.files.sampleFile];
 
-  uploadPath = __dirname + "/uploads/" + sampleFile.name;
+  /*   allFiles.forEach((file) => {
+    const uploadPath = __dirname + "/uploads/" + file.name;
 
-  sampleFile.mv(uploadPath, function (err) {
-    if (err) {
-      return res.status(500).send(err);
-    }
+    file.mv(uploadPath, function (err) {
+      if (err) {
+        return res.status(500).send(err);
+      }
 
-    res.send("File uploaded to " + uploadPath);
-  });
+      res.write("File uploaded to " + uploadPath);
+    });
+  }); */
+
+  Promise.allSettled(
+    allFiles.map(
+      (file) =>
+        new Promise((resolve, reject) => {
+          const uploadPath = __dirname + "/uploads/" + file.name;
+
+          file.mv(uploadPath, function (err) {
+            if (err) {
+              return res.status(500).write(err);
+            }
+
+            res.write("File uploaded to " + uploadPath + "\n");
+            resolve();
+          });
+        })
+    )
+  ).then(() => res.end());
 });
 
 app.listen(PORT, function () {
