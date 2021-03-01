@@ -1,3 +1,5 @@
+"use strict";
+
 function _load() {
   console.log("Client is Running");
 
