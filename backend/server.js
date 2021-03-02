@@ -11,7 +11,7 @@ app.use("/form", express.static(path.join(__dirname, "../frontend")));
 // default options
 // app.use(fileUpload());
 
-app.get("/ping", function (req, res) {
+app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
@@ -20,7 +20,7 @@ const asd = (req, res, next) => {
   next();
 };
 
-app.post("/upload", fileUpload(), asd, function (req, res) {
+app.post("/upload", fileUpload(), asd, (req, res) => {
   console.log("userName:", req.body.userName);
 
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -28,7 +28,7 @@ app.post("/upload", fileUpload(), asd, function (req, res) {
     return;
   }
 
-  console.log("req.files >>>", req.files); // eslint-disable-line
+  console.log("req.files >>>", req.files);
 
   const allFiles = req.files.uploadFiles.length
     ? req.files.uploadFiles
@@ -40,7 +40,7 @@ app.post("/upload", fileUpload(), asd, function (req, res) {
         new Promise((resolve, reject) => {
           const uploadPath = path.resolve(__dirname, "uploads", file.name);
 
-          file.mv(uploadPath, function (err) {
+          file.mv(uploadPath, (err) => {
             if (err) {
               reject(err);
               return res.status(500).write(err);
@@ -56,6 +56,6 @@ app.post("/upload", fileUpload(), asd, function (req, res) {
   });
 });
 
-app.listen(PORT, function () {
-  console.log("Express server listening on port ", PORT); // eslint-disable-line
+app.listen(PORT, () => {
+  console.log("Express server listening on port ", PORT);
 });
