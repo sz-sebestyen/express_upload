@@ -9,7 +9,11 @@ function App() {
 
   useEffect(() => {
     if (submitted) {
-      send(userNameInput.current.value, fileInput.current.files);
+      const data = packData(
+        userNameInput.current.value,
+        fileInput.current.files
+      );
+      send(data);
       setSubmitted(false);
     }
   }, [submitted]);
@@ -33,7 +37,7 @@ function App() {
   );
 }
 
-const send = async (username, files) => {
+const packData = (username, files) => {
   const formData = new FormData();
 
   formData.append("userName", username);
@@ -41,7 +45,10 @@ const send = async (username, files) => {
   for (const file of files) {
     formData.append("uploadFiles", file);
   }
+  return formData;
+};
 
+const send = async (formData) => {
   console.log("formData:", Object.fromEntries(formData));
 
   let text;
