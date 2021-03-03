@@ -7,6 +7,13 @@ function App() {
   const fileInput = useRef(null);
   const userNameInput = useRef(null);
 
+  const firstnameInput = useRef(null);
+  const lastnameInput = useRef(null);
+  const countryInput = useRef(null);
+  const emailInput = useRef(null);
+  const addressInput = useRef(null);
+  const cityInput = useRef(null);
+
   useEffect(() => {
     if (submitted) {
       const data = packData(
@@ -20,19 +27,89 @@ function App() {
 
   return (
     <div className="App">
-      <label htmlFor="userName">Username</label>
-      <input
-        type="text"
-        name="userName"
-        placeholder="username"
-        ref={userNameInput}
-      />
+      <div className="column">
+        <div className="inputWrap">
+          <label htmlFor="firstname">Firstname</label>
+          <input
+            type="text"
+            name="firstname"
+            id="firstname"
+            placeholder="Firstname"
+            ref={firstnameInput}
+          />
+        </div>
+        <div className="inputWrap">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            ref={emailInput}
+          />
+        </div>
 
-      <input type="file" name="uploadFiles" multiple ref={fileInput} />
+        <div className="inputWrap">
+          <label htmlFor="country">Country</label>
+          <input
+            type="text"
+            name="country"
+            id="country"
+            placeholder="Country"
+            ref={countryInput}
+          />
+        </div>
+      </div>
 
-      <button type="button" onClick={() => setSubmitted(true)}>
-        Upload!
-      </button>
+      <div className="column">
+        <div className="inputWrap">
+          <label htmlFor="lastname">Lastname</label>
+          <input
+            type="text"
+            name="lastname"
+            id="lastname"
+            placeholder="Lastname"
+            ref={lastnameInput}
+          />
+        </div>
+
+        <div className="inputWrap">
+          <label htmlFor="address">Address</label>
+          <input
+            type="text"
+            name="address"
+            id="address"
+            placeholder="Address"
+            ref={addressInput}
+          />
+        </div>
+
+        <div className="inputWrap">
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            name="city"
+            id="city"
+            placeholder="City"
+            ref={cityInput}
+          />
+        </div>
+      </div>
+      <div className="files">
+        <input
+          type="file"
+          name="uploadFiles"
+          id="uploadFiles"
+          multiple
+          ref={fileInput}
+        />
+        <label htmlFor="uploadFiles">Choose a file</label>
+      </div>
+      <div className="submit">
+        <button type="button" onClick={() => setSubmitted(true)}>
+          Upload!
+        </button>
+      </div>
     </div>
   );
 }

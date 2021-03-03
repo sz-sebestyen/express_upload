@@ -11,28 +11,75 @@ body {
 }
 
 .App {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: 200px auto;
+  width: min-content;
+  display: grid;
+  grid-template-areas:
+    "column1 column2"
+    "files   files  "
+    "submit  submit ";
+  gap: 40px;
+}
+
+.column {
   display: flex;
   flex-direction: column;
   gap: 25px;
-  align-items: flex-start;
+}
+
+.inputWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.files {
+  grid-area: files;
+}
+
+.submit {
+  grid-area: submit;
 }
 
 label {
-  margin-bottom: -20px;
 }
 
-input {
-  padding: 0.5em 0.2em;
-  width: 100%;
-  appearance: none;
+input:not([type="file"]) {
+  border: 0.5px solid #ddd;
+  border-radius: 3px;
+  height: 2.5em;
+  width: 280px;
+  padding: 0 1em;
+  font-size: 1em;
+}
+
+input:not([type="file"]):focus {
+  outline: none;
+  box-shadow: 0 0 0 1px black;
+}
+
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+input[type="file"]:focus + label {
+  outline: 1px solid black;
+}
+
+label[for="uploadFiles"] {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
 }
 
 button {
   appearance: none;
-  padding: 0.7em 0.75em;
-  align-self: center;
 }
