@@ -5,6 +5,16 @@ const fileUpload = require("express-fileupload");
 const path = require("path");
 const app = express();
 
+const low = require("lowdb");
+const FileSync = require("lowdb/adapters/FileSync");
+
+const { nanoid } = require("nanoid");
+const idlength = 8;
+
+const adapter = new FileSync("db.json");
+const dbAll = low(adapter);
+dbAll.defaults({ userDbs: [] }).write();
+
 const PORT = 8000;
 app.use("/form", express.static(path.join(__dirname, "../frontend")));
 
@@ -21,7 +31,8 @@ const asd = (req, res, next) => {
 };
 
 app.post("/upload", fileUpload(), asd, (req, res) => {
-  console.log("jsonData:", JSON.parse(req.body.jsonData));
+  const data = JSON.parse(req.body.jsonData);
+  console.log("jsonData:", data);
 
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).send("No files were uploaded.");
@@ -33,6 +44,23 @@ app.post("/upload", fileUpload(), asd, (req, res) => {
   const allFiles = req.files.uploadFiles.length
     ? req.files.uploadFiles
     : [req.files.uploadFiles];
+
+  const fileName = data.email.split("@").join("").split(".").join("") + ".json";
+
+  const adapter = new FileSync(fileName);
+  const db = low(adapter);
+
+  db.defaults({
+    user: data,
+    files: allFiles.map((file) => "/uploads" + file.name),
+  }).write();
+
+  if (!dbAll.get("userDbs").find({ fileName }).value()) {
+    dbAll
+      .get("userDbs")
+      .push({ fileName, id: nanoid(idlength) })
+      .write();
+  }
 
   Promise.all(
     allFiles.map(

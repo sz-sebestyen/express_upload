@@ -1,0 +1,13 @@
+{
+  "user": {
+    "firstname": "Sebestyén",
+    "lastname": "Szabó",
+    "country": "yxc",
+    "email": "szabosebestyen.mail@gmail.com",
+    "address": "qwe",
+    "city": "asd"
+  },
+  "files": [
+    "test2.txt"
+  ]
+}
