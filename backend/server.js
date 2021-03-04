@@ -21,7 +21,7 @@ const asd = (req, res, next) => {
 };
 
 app.post("/upload", fileUpload(), asd, (req, res) => {
-  console.log("userName:", req.body.userName);
+  console.log("jsonData:", JSON.parse(req.body.jsonData));
 
   if (!req.files || Object.keys(req.files).length === 0) {
     res.status(400).send("No files were uploaded.");

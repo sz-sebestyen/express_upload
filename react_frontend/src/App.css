@@ -6,10 +6,6 @@
   margin: 0;
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .App {
   margin: 200px auto;
   width: min-content;
@@ -39,6 +35,8 @@ body {
 
 .submit {
   grid-area: submit;
+  display: flex;
+  justify-content: center;
 }
 
 label {
@@ -69,7 +67,7 @@ input[type="file"] {
   border: 0;
 }
 
-input[type="file"]:focus + label {
+input[type="file"]:focus ~ label {
   outline: 1px solid black;
 }
 
@@ -78,8 +76,28 @@ label[for="uploadFiles"] {
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
+  margin-right: 10px;
+  margin-top: 10px;
+  background: linear-gradient(#ddd, #fff);
 }
 
 button {
   appearance: none;
+  padding: 0.8em 1em;
+  border: none;
+  border-radius: 5px;
+  background-color: #5384ce;
+  color: white;
 }
+
+button:hover,
+button:active {
+  background-color: #4273bc;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px black;
+}
+
+/* https://webomnizz.com/wp-content/uploads/2019/11/file-upload-flask.png */

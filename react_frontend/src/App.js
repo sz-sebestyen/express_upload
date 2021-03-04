@@ -5,7 +5,6 @@ function App() {
   const [submitted, setSubmitted] = useState(false);
 
   const fileInput = useRef(null);
-  const userNameInput = useRef(null);
 
   const firstnameInput = useRef(null);
   const lastnameInput = useRef(null);
@@ -13,11 +12,19 @@ function App() {
   const emailInput = useRef(null);
   const addressInput = useRef(null);
   const cityInput = useRef(null);
+  const [choosenFiles, setChoosenFiles] = useState("No files choosen");
 
   useEffect(() => {
     if (submitted) {
       const data = packData(
-        userNameInput.current.value,
+        {
+          firstname: firstnameInput.current.value,
+          lastname: lastnameInput.current.value,
+          country: countryInput.current.value,
+          email: emailInput.current.value,
+          address: addressInput.current.value,
+          city: cityInput.current.value,
+        },
         fileInput.current.files
       );
       send(data);
@@ -44,7 +51,7 @@ function App() {
             type="email"
             name="email"
             id="email"
-            placeholder="Email"
+            placeholder="Your Email"
             ref={emailInput}
           />
         </div>
@@ -55,7 +62,7 @@ function App() {
             type="text"
             name="country"
             id="country"
-            placeholder="Country"
+            placeholder="Your Country"
             ref={countryInput}
           />
         </div>
@@ -79,7 +86,7 @@ function App() {
             type="text"
             name="address"
             id="address"
-            placeholder="Address"
+            placeholder="Type Address"
             ref={addressInput}
           />
         </div>
@@ -90,7 +97,7 @@ function App() {
             type="text"
             name="city"
             id="city"
-            placeholder="City"
+            placeholder="Your City"
             ref={cityInput}
           />
         </div>
@@ -102,8 +109,18 @@ function App() {
           id="uploadFiles"
           multiple
           ref={fileInput}
+          onInput={() => {
+            if (fileInput.current.files.length !== 1) {
+              const count = fileInput.current.files.length;
+              setChoosenFiles(`${count} files choosen`);
+            } else {
+              setChoosenFiles(fileInput.current.files[0].name);
+            }
+          }}
         />
-        <label htmlFor="uploadFiles">Choose a file</label>
+        <p>Upload document</p>
+        <label htmlFor="uploadFiles">Choose files</label>
+        <span>{choosenFiles}</span>
       </div>
       <div className="submit">
         <button type="button" onClick={() => setSubmitted(true)}>
@@ -114,10 +131,10 @@ function App() {
   );
 }
 
-const packData = (username, files) => {
+const packData = (data, files) => {
   const formData = new FormData();
 
-  formData.append("userName", username);
+  formData.append("jsonData", JSON.stringify(data));
 
   for (const file of files) {
     formData.append("uploadFiles", file);
